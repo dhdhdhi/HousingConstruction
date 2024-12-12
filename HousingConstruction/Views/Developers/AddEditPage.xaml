@@ -1,0 +1,82 @@
+﻿<Page
+    x:Class="HousingConstruction.Views.Developers.AddEditPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:HousingConstruction.Views.Developers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="AddEditPage"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="100,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Text="Название компании" />
+
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="10"
+                VerticalContentAlignment="Center"
+                Text="{Binding Name}" />
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Text="Телефон" />
+
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="10"
+                VerticalContentAlignment="Center"
+                Text="{Binding Phone}" />
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                x:Name="OK_Button"
+                Grid.Column="0"
+                Margin="50,5"
+                Click="OK_Button_Click"
+                Content="Ок" />
+
+            <Button
+                x:Name="Cancel_Button"
+                Grid.Column="1"
+                Margin="50,5"
+                Click="Cancel_Button_Click"
+                Content="Отмена" />
+        </Grid>
+    </Grid>
+</Page>

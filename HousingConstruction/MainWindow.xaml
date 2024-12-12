@@ -1,0 +1,67 @@
+﻿<Window
+    x:Class="HousingConstruction.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:HousingConstruction"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Строительство жилья "
+    Width="800"
+    Height="600"
+    FontSize="14"
+    mc:Ignorable="d">
+
+    <Grid>
+        <TabControl Margin="10" TabStripPlacement="Left">
+            <TabItem
+                Height="50"
+                FontSize="18"
+                Header="Статистика">
+                <TabControl Grid.Row="0" TabStripPlacement="Top">
+                    <TabItem Header="Жилье по статусу">
+                        <Frame x:Name="Tab_Status" NavigationUIVisibility="Hidden" />
+                    </TabItem>
+                    <TabItem Header="Статистика работников">
+                        <Frame x:Name="Tab_WorkerStat" NavigationUIVisibility="Hidden" />
+                    </TabItem>
+                    <TabItem Header="Статистика застройщиков">
+                        <Frame x:Name="Tab_DeveloperStat" NavigationUIVisibility="Hidden" />
+                    </TabItem>
+                    <TabItem Header="Статистика смен">
+                        <Frame x:Name="Tab_ShiftStat" NavigationUIVisibility="Hidden" />
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem
+                Height="50"
+                FontSize="18"
+                Header="Жилье">
+                <Frame x:Name="Tab_HousingMain" NavigationUIVisibility="Hidden" />
+            </TabItem>
+            <TabItem
+                Height="50"
+                FontSize="18"
+                Header="Застройщики">
+                <Frame x:Name="Tab_DeveloperMain" NavigationUIVisibility="Hidden" />
+            </TabItem>
+            <TabItem
+                Height="50"
+                FontSize="18"
+                Header="Стройка">
+                <Frame x:Name="Tab_ConstructionMain" NavigationUIVisibility="Hidden" />
+            </TabItem>
+            <TabItem
+                Height="50"
+                FontSize="18"
+                Header="Работники">
+                <Frame x:Name="Tab_WorkerMain" NavigationUIVisibility="Hidden" />
+            </TabItem>
+            <TabItem
+                Height="50"
+                FontSize="18"
+                Header="Смены">
+                <Frame x:Name="Tab_ShiftMain" NavigationUIVisibility="Hidden" />
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

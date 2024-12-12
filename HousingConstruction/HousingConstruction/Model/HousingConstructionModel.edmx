@@ -1,0 +1,1097 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище HousingConstructionModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Construction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="DeveloperID" Type="int" Nullable="false" />
+          <Property Name="HousingID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Developer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Housing">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Area" Type="float" Nullable="false" />
+          <Property Name="RoomCount" Type="int" />
+          <Property Name="Address" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="HousingTypeID" Type="int" Nullable="false" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HousingType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PositionName" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shift">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkerID" Type="int" Nullable="false" />
+          <Property Name="ConstructionID" Type="int" Nullable="false" />
+          <Property Name="ShiftDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Worker">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="PositionID" Type="int" Nullable="false" />
+          <Property Name="PaymentPerShift" Type="money" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "HousingConstruction.dbo.CompletedHousingInfo" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="CompletedHousingInfo">
+          <Key>
+            <PropertyRef Name="HousingID" />
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="HousingID" Type="int" Nullable="false" />
+          <Property Name="HousingType" Type="varchar" MaxLength="255" />
+          <Property Name="HousingAddress" Type="varchar" MaxLength="255" />
+          <Property Name="HousingStatus" Type="varchar" MaxLength="255" />
+          <Property Name="ConstructionStartDate" Type="date" />
+          <Property Name="ConstructionEndDate" Type="date" />
+          <Property Name="DeveloperID" Type="int" Nullable="false" />
+          <Property Name="DeveloperName" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "HousingConstruction.dbo.DeveloperStatistics" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="DeveloperStatistics">
+          <Key>
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="DeveloperID" Type="int" Nullable="false" />
+          <Property Name="DeveloperName" Type="varchar" MaxLength="255" />
+          <Property Name="TotalBuildings" Type="int" />
+          <Property Name="TotalConstructionDurationDays" Type="int" />
+          <Property Name="AverageConstructionDurationDays" Type="int" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "HousingConstruction.dbo.InProgressHousingInfo" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="InProgressHousingInfo">
+          <Key>
+            <PropertyRef Name="HousingID" />
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="HousingID" Type="int" Nullable="false" />
+          <Property Name="HousingType" Type="varchar" MaxLength="255" />
+          <Property Name="HousingAddress" Type="varchar" MaxLength="255" />
+          <Property Name="HousingStatus" Type="varchar" MaxLength="255" />
+          <Property Name="ConstructionStartDate" Type="date" />
+          <Property Name="ConstructionEndDate" Type="date" />
+          <Property Name="DeveloperID" Type="int" Nullable="false" />
+          <Property Name="DeveloperName" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "HousingConstruction.dbo.ShiftSummary" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="ShiftSummary">
+          <Key>
+            <PropertyRef Name="ShiftID" />
+            <PropertyRef Name="HousingID" />
+          </Key>
+          <Property Name="ShiftID" Type="int" Nullable="false" />
+          <Property Name="WorkerID" Type="int" />
+          <Property Name="FullName" Type="varchar" MaxLength="255" />
+          <Property Name="HousingID" Type="int" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="255" />
+          <Property Name="TypeName" Type="varchar" MaxLength="255" />
+          <Property Name="StatusName" Type="varchar" MaxLength="255" />
+          <Property Name="ShiftDate" Type="date" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "HousingConstruction.dbo.SoldHousingInfo" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="SoldHousingInfo">
+          <Key>
+            <PropertyRef Name="HousingID" />
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="HousingID" Type="int" Nullable="false" />
+          <Property Name="HousingType" Type="varchar" MaxLength="255" />
+          <Property Name="HousingAddress" Type="varchar" MaxLength="255" />
+          <Property Name="HousingStatus" Type="varchar" MaxLength="255" />
+          <Property Name="ConstructionStartDate" Type="date" />
+          <Property Name="ConstructionEndDate" Type="date" />
+          <Property Name="DeveloperID" Type="int" Nullable="false" />
+          <Property Name="DeveloperName" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "HousingConstruction.dbo.WorkerStatictics" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="WorkerStatictics">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="WorkerFullName" Type="varchar" MaxLength="255" />
+          <Property Name="TotalShiftsWorked" Type="int" />
+          <Property Name="TotalPayment" Type="money" />
+        </EntityType>
+        <Association Name="FK_Construction_Housing">
+          <End Role="Housing" Type="Self.Housing" Multiplicity="1" />
+          <End Role="Construction" Type="Self.Construction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Housing">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Construction">
+              <PropertyRef Name="HousingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Construction_Shift">
+          <End Role="Construction" Type="Self.Construction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Shift" Type="Self.Shift" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Construction">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Shift">
+              <PropertyRef Name="ConstructionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Developer_Construction">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Construction" Type="Self.Construction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Construction">
+              <PropertyRef Name="DeveloperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HousingType_Housing">
+          <End Role="HousingType" Type="Self.HousingType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Housing" Type="Self.Housing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HousingType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Housing">
+              <PropertyRef Name="HousingTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Worker">
+          <End Role="Position" Type="Self.Position" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Worker" Type="Self.Worker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Worker">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Status_Housing">
+          <End Role="Status" Type="Self.Status" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Housing" Type="Self.Housing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Housing">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Worker_Shift">
+          <End Role="Worker" Type="Self.Worker" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Shift" Type="Self.Shift" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Worker">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Shift">
+              <PropertyRef Name="WorkerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddConstruction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HousingID" Type="int" Mode="In" />
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+          <Parameter Name="DeveloperID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AddDeveloper" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Phone" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="AddHousing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Area" Type="decimal" Mode="In" />
+          <Parameter Name="RoomCount" Type="int" Mode="In" />
+          <Parameter Name="Address" Type="nvarchar" Mode="In" />
+          <Parameter Name="Price" Type="decimal" Mode="In" />
+          <Parameter Name="DeveloperID" Type="int" Mode="In" />
+          <Parameter Name="HousingTypeID" Type="int" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AddShift" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WorkerID" Type="int" Mode="In" />
+          <Parameter Name="ConstructionID" Type="int" Mode="In" />
+          <Parameter Name="ShiftDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="AddWorker" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FullName" Type="nvarchar" Mode="In" />
+          <Parameter Name="PositionID" Type="int" Mode="In" />
+          <Parameter Name="PaymentPerShift" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="CalculateAveragePricePerHousingType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="HousingTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CalculateTotalAreaByHousingType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="decimal">
+          <Parameter Name="HousingTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CountCompletedConstructionsByDeveloper" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="DeveloperID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="CountWorkersOnConstruction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="ConstructionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteConstruction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ConstructionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteDeveloper" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DeveloperID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteHousing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HousingID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteShift" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ShiftID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteWorker" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WorkerID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="FindMostExpensiveHousing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ID" Type="int" Nullable="false" />
+                <Property Name="Area" Type="float" />
+                <Property Name="RoomCount" Type="int" />
+                <Property Name="Address" Type="varchar" MaxLength="255" />
+                <Property Name="Price" Type="money" />
+                <Property Name="DeveloperID" Type="int" />
+                <Property Name="HousingTypeID" Type="int" />
+                <Property Name="StatusID" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="UpdateConstruction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ConstructionID" Type="int" Mode="In" />
+          <Parameter Name="HousingID" Type="int" Mode="In" />
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+          <Parameter Name="DeveloperID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateDeveloper" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DeveloperID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Phone" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateHousing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="HousingID" Type="int" Mode="In" />
+          <Parameter Name="Area" Type="decimal" Mode="In" />
+          <Parameter Name="RoomCount" Type="int" Mode="In" />
+          <Parameter Name="Address" Type="nvarchar" Mode="In" />
+          <Parameter Name="Price" Type="decimal" Mode="In" />
+          <Parameter Name="DeveloperID" Type="int" Mode="In" />
+          <Parameter Name="HousingTypeID" Type="int" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateShift" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ShiftID" Type="int" Mode="In" />
+          <Parameter Name="WorkerID" Type="int" Mode="In" />
+          <Parameter Name="ConstructionID" Type="int" Mode="In" />
+          <Parameter Name="ShiftDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="UpdateWorker" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WorkerID" Type="int" Mode="In" />
+          <Parameter Name="FullName" Type="nvarchar" Mode="In" />
+          <Parameter Name="PositionID" Type="int" Mode="In" />
+          <Parameter Name="PaymentPerShift" Type="decimal" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище HousingConstructionModelContainer">
+          <EntitySet Name="Construction" EntityType="Self.Construction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Developer" EntityType="Self.Developer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Housing" EntityType="Self.Housing" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HousingType" EntityType="Self.HousingType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shift" EntityType="Self.Shift" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Worker" EntityType="Self.Worker" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompletedHousingInfo" EntityType="Self.CompletedHousingInfo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CompletedHousingInfo].[HousingID] AS [HousingID], 
+    [CompletedHousingInfo].[HousingType] AS [HousingType], 
+    [CompletedHousingInfo].[HousingAddress] AS [HousingAddress], 
+    [CompletedHousingInfo].[HousingStatus] AS [HousingStatus], 
+    [CompletedHousingInfo].[ConstructionStartDate] AS [ConstructionStartDate], 
+    [CompletedHousingInfo].[ConstructionEndDate] AS [ConstructionEndDate], 
+    [CompletedHousingInfo].[DeveloperID] AS [DeveloperID], 
+    [CompletedHousingInfo].[DeveloperName] AS [DeveloperName]
+    FROM [dbo].[CompletedHousingInfo] AS [CompletedHousingInfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="DeveloperStatistics" EntityType="Self.DeveloperStatistics" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DeveloperStatistics].[DeveloperID] AS [DeveloperID], 
+    [DeveloperStatistics].[DeveloperName] AS [DeveloperName], 
+    [DeveloperStatistics].[TotalBuildings] AS [TotalBuildings], 
+    [DeveloperStatistics].[TotalConstructionDurationDays] AS [TotalConstructionDurationDays], 
+    [DeveloperStatistics].[AverageConstructionDurationDays] AS [AverageConstructionDurationDays]
+    FROM [dbo].[DeveloperStatistics] AS [DeveloperStatistics]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="InProgressHousingInfo" EntityType="Self.InProgressHousingInfo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [InProgressHousingInfo].[HousingID] AS [HousingID], 
+    [InProgressHousingInfo].[HousingType] AS [HousingType], 
+    [InProgressHousingInfo].[HousingAddress] AS [HousingAddress], 
+    [InProgressHousingInfo].[HousingStatus] AS [HousingStatus], 
+    [InProgressHousingInfo].[ConstructionStartDate] AS [ConstructionStartDate], 
+    [InProgressHousingInfo].[ConstructionEndDate] AS [ConstructionEndDate], 
+    [InProgressHousingInfo].[DeveloperID] AS [DeveloperID], 
+    [InProgressHousingInfo].[DeveloperName] AS [DeveloperName]
+    FROM [dbo].[InProgressHousingInfo] AS [InProgressHousingInfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ShiftSummary" EntityType="Self.ShiftSummary" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ShiftSummary].[ShiftID] AS [ShiftID], 
+    [ShiftSummary].[WorkerID] AS [WorkerID], 
+    [ShiftSummary].[FullName] AS [FullName], 
+    [ShiftSummary].[HousingID] AS [HousingID], 
+    [ShiftSummary].[Address] AS [Address], 
+    [ShiftSummary].[TypeName] AS [TypeName], 
+    [ShiftSummary].[StatusName] AS [StatusName], 
+    [ShiftSummary].[ShiftDate] AS [ShiftDate]
+    FROM [dbo].[ShiftSummary] AS [ShiftSummary]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SoldHousingInfo" EntityType="Self.SoldHousingInfo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SoldHousingInfo].[HousingID] AS [HousingID], 
+    [SoldHousingInfo].[HousingType] AS [HousingType], 
+    [SoldHousingInfo].[HousingAddress] AS [HousingAddress], 
+    [SoldHousingInfo].[HousingStatus] AS [HousingStatus], 
+    [SoldHousingInfo].[ConstructionStartDate] AS [ConstructionStartDate], 
+    [SoldHousingInfo].[ConstructionEndDate] AS [ConstructionEndDate], 
+    [SoldHousingInfo].[DeveloperID] AS [DeveloperID], 
+    [SoldHousingInfo].[DeveloperName] AS [DeveloperName]
+    FROM [dbo].[SoldHousingInfo] AS [SoldHousingInfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="WorkerStatictics" EntityType="Self.WorkerStatictics" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [WorkerStatictics].[ID] AS [ID], 
+    [WorkerStatictics].[WorkerFullName] AS [WorkerFullName], 
+    [WorkerStatictics].[TotalShiftsWorked] AS [TotalShiftsWorked], 
+    [WorkerStatictics].[TotalPayment] AS [TotalPayment]
+    FROM [dbo].[WorkerStatictics] AS [WorkerStatictics]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Construction_Housing" Association="Self.FK_Construction_Housing">
+            <End Role="Housing" EntitySet="Housing" />
+            <End Role="Construction" EntitySet="Construction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Construction_Shift" Association="Self.FK_Construction_Shift">
+            <End Role="Construction" EntitySet="Construction" />
+            <End Role="Shift" EntitySet="Shift" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Developer_Construction" Association="Self.FK_Developer_Construction">
+            <End Role="Developer" EntitySet="Developer" />
+            <End Role="Construction" EntitySet="Construction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HousingType_Housing" Association="Self.FK_HousingType_Housing">
+            <End Role="HousingType" EntitySet="HousingType" />
+            <End Role="Housing" EntitySet="Housing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Worker" Association="Self.FK_Position_Worker">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Worker" EntitySet="Worker" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Status_Housing" Association="Self.FK_Status_Housing">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Housing" EntitySet="Housing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Worker_Shift" Association="Self.FK_Worker_Shift">
+            <End Role="Worker" EntitySet="Worker" />
+            <End Role="Shift" EntitySet="Shift" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HousingConstructionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="FindMostExpensiveHousing_Result">
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Area" Type="Double" />
+          <Property Name="RoomCount" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DeveloperID" Type="Int32" />
+          <Property Name="HousingTypeID" Type="Int32" />
+          <Property Name="StatusID" Type="Int32" />
+        </ComplexType>
+        <EntityType Name="Construction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DeveloperID" Type="Int32" Nullable="false" />
+          <Property Name="HousingID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Housing" Relationship="Self.FK_Construction_Housing" FromRole="Construction" ToRole="Housing" />
+          <NavigationProperty Name="Shift" Relationship="Self.FK_Construction_Shift" FromRole="Construction" ToRole="Shift" />
+          <NavigationProperty Name="Developer" Relationship="Self.FK_Developer_Construction" FromRole="Construction" ToRole="Developer" />
+        </EntityType>
+        <EntityType Name="Developer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Construction" Relationship="Self.FK_Developer_Construction" FromRole="Developer" ToRole="Construction" />
+        </EntityType>
+        <EntityType Name="Housing">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Area" Type="Double" Nullable="false" />
+          <Property Name="RoomCount" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="HousingTypeID" Type="Int32" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Construction" Relationship="Self.FK_Construction_Housing" FromRole="Housing" ToRole="Construction" />
+          <NavigationProperty Name="HousingType" Relationship="Self.FK_HousingType_Housing" FromRole="Housing" ToRole="HousingType" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Status_Housing" FromRole="Housing" ToRole="Status" />
+        </EntityType>
+        <EntityType Name="HousingType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Housing" Relationship="Self.FK_HousingType_Housing" FromRole="HousingType" ToRole="Housing" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Worker" Relationship="Self.FK_Position_Worker" FromRole="Position" ToRole="Worker" />
+        </EntityType>
+        <EntityType Name="Shift">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkerID" Type="Int32" Nullable="false" />
+          <Property Name="ConstructionID" Type="Int32" Nullable="false" />
+          <Property Name="ShiftDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Construction" Relationship="Self.FK_Construction_Shift" FromRole="Shift" ToRole="Construction" />
+          <NavigationProperty Name="Worker" Relationship="Self.FK_Worker_Shift" FromRole="Shift" ToRole="Worker" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Housing" Relationship="Self.FK_Status_Housing" FromRole="Status" ToRole="Housing" />
+        </EntityType>
+        <EntityType Name="Worker">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PositionID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentPerShift" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Position" Relationship="Self.FK_Position_Worker" FromRole="Worker" ToRole="Position" />
+          <NavigationProperty Name="Shift" Relationship="Self.FK_Worker_Shift" FromRole="Worker" ToRole="Shift" />
+        </EntityType>
+        <EntityType Name="CompletedHousingInfo">
+          <Key>
+            <PropertyRef Name="HousingID" />
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="HousingID" Type="Int32" Nullable="false" />
+          <Property Name="HousingType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HousingAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HousingStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ConstructionStartDate" Type="DateTime" Precision="0" />
+          <Property Name="ConstructionEndDate" Type="DateTime" Precision="0" />
+          <Property Name="DeveloperID" Type="Int32" Nullable="false" />
+          <Property Name="DeveloperName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DeveloperStatistics">
+          <Key>
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="DeveloperID" Type="Int32" Nullable="false" />
+          <Property Name="DeveloperName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TotalBuildings" Type="Int32" />
+          <Property Name="TotalConstructionDurationDays" Type="Int32" />
+          <Property Name="AverageConstructionDurationDays" Type="Int32" />
+        </EntityType>
+        <EntityType Name="InProgressHousingInfo">
+          <Key>
+            <PropertyRef Name="HousingID" />
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="HousingID" Type="Int32" Nullable="false" />
+          <Property Name="HousingType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HousingAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HousingStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ConstructionStartDate" Type="DateTime" Precision="0" />
+          <Property Name="ConstructionEndDate" Type="DateTime" Precision="0" />
+          <Property Name="DeveloperID" Type="Int32" Nullable="false" />
+          <Property Name="DeveloperName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ShiftSummary">
+          <Key>
+            <PropertyRef Name="ShiftID" />
+            <PropertyRef Name="HousingID" />
+          </Key>
+          <Property Name="ShiftID" Type="Int32" Nullable="false" />
+          <Property Name="WorkerID" Type="Int32" />
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HousingID" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StatusName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ShiftDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="SoldHousingInfo">
+          <Key>
+            <PropertyRef Name="HousingID" />
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="HousingID" Type="Int32" Nullable="false" />
+          <Property Name="HousingType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HousingAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HousingStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ConstructionStartDate" Type="DateTime" Precision="0" />
+          <Property Name="ConstructionEndDate" Type="DateTime" Precision="0" />
+          <Property Name="DeveloperID" Type="Int32" Nullable="false" />
+          <Property Name="DeveloperName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="WorkerStatictics">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="WorkerFullName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TotalShiftsWorked" Type="Int32" />
+          <Property Name="TotalPayment" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <Association Name="FK_Construction_Housing">
+          <End Role="Housing" Type="Self.Housing" Multiplicity="1" />
+          <End Role="Construction" Type="Self.Construction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Housing">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Construction">
+              <PropertyRef Name="HousingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Construction_Shift">
+          <End Role="Construction" Type="Self.Construction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Shift" Type="Self.Shift" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Construction">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Shift">
+              <PropertyRef Name="ConstructionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Developer_Construction">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Construction" Type="Self.Construction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Construction">
+              <PropertyRef Name="DeveloperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HousingType_Housing">
+          <End Role="HousingType" Type="Self.HousingType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Housing" Type="Self.Housing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HousingType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Housing">
+              <PropertyRef Name="HousingTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Status_Housing">
+          <End Role="Status" Type="Self.Status" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Housing" Type="Self.Housing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Housing">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Worker">
+          <End Role="Position" Type="Self.Position" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Worker" Type="Self.Worker" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Worker">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Worker_Shift">
+          <End Role="Worker" Type="Self.Worker" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Shift" Type="Self.Shift" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Worker">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Shift">
+              <PropertyRef Name="WorkerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HousingConstructionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Construction" EntityType="Self.Construction" />
+          <EntitySet Name="Developer" EntityType="Self.Developer" />
+          <EntitySet Name="Housing" EntityType="Self.Housing" />
+          <EntitySet Name="HousingType" EntityType="Self.HousingType" />
+          <EntitySet Name="Position" EntityType="Self.Position" />
+          <EntitySet Name="Shift" EntityType="Self.Shift" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="Worker" EntityType="Self.Worker" />
+          <EntitySet Name="CompletedHousingInfo" EntityType="Self.CompletedHousingInfo" />
+          <EntitySet Name="DeveloperStatistics" EntityType="Self.DeveloperStatistics" />
+          <EntitySet Name="InProgressHousingInfo" EntityType="Self.InProgressHousingInfo" />
+          <EntitySet Name="ShiftSummary" EntityType="Self.ShiftSummary" />
+          <EntitySet Name="SoldHousingInfo" EntityType="Self.SoldHousingInfo" />
+          <EntitySet Name="WorkerStatictics" EntityType="Self.WorkerStatictics" />
+          <AssociationSet Name="FK_Construction_Housing" Association="Self.FK_Construction_Housing">
+            <End Role="Housing" EntitySet="Housing" />
+            <End Role="Construction" EntitySet="Construction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Construction_Shift" Association="Self.FK_Construction_Shift">
+            <End Role="Construction" EntitySet="Construction" />
+            <End Role="Shift" EntitySet="Shift" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Developer_Construction" Association="Self.FK_Developer_Construction">
+            <End Role="Developer" EntitySet="Developer" />
+            <End Role="Construction" EntitySet="Construction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HousingType_Housing" Association="Self.FK_HousingType_Housing">
+            <End Role="HousingType" EntitySet="HousingType" />
+            <End Role="Housing" EntitySet="Housing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Status_Housing" Association="Self.FK_Status_Housing">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Housing" EntitySet="Housing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Worker" Association="Self.FK_Position_Worker">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Worker" EntitySet="Worker" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Worker_Shift" Association="Self.FK_Worker_Shift">
+            <End Role="Worker" EntitySet="Worker" />
+            <End Role="Shift" EntitySet="Shift" />
+          </AssociationSet>
+          <FunctionImport Name="FindMostExpensiveHousing" IsComposable="true" ReturnType="Collection(HousingConstructionModel.FindMostExpensiveHousing_Result)" />
+          <FunctionImport Name="AddConstruction">
+            <Parameter Name="HousingID" Mode="In" Type="Int32" />
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="DeveloperID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddDeveloper">
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddHousing">
+            <Parameter Name="Area" Mode="In" Type="Decimal" />
+            <Parameter Name="RoomCount" Mode="In" Type="Int32" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="Price" Mode="In" Type="Decimal" />
+            <Parameter Name="DeveloperID" Mode="In" Type="Int32" />
+            <Parameter Name="HousingTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddShift">
+            <Parameter Name="WorkerID" Mode="In" Type="Int32" />
+            <Parameter Name="ConstructionID" Mode="In" Type="Int32" />
+            <Parameter Name="ShiftDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="AddWorker">
+            <Parameter Name="FullName" Mode="In" Type="String" />
+            <Parameter Name="PositionID" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentPerShift" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteConstruction">
+            <Parameter Name="ConstructionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteDeveloper">
+            <Parameter Name="DeveloperID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteHousing">
+            <Parameter Name="HousingID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteShift">
+            <Parameter Name="ShiftID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteWorker">
+            <Parameter Name="WorkerID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateConstruction">
+            <Parameter Name="ConstructionID" Mode="In" Type="Int32" />
+            <Parameter Name="HousingID" Mode="In" Type="Int32" />
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="DeveloperID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateDeveloper">
+            <Parameter Name="DeveloperID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateHousing">
+            <Parameter Name="HousingID" Mode="In" Type="Int32" />
+            <Parameter Name="Area" Mode="In" Type="Decimal" />
+            <Parameter Name="RoomCount" Mode="In" Type="Int32" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="Price" Mode="In" Type="Decimal" />
+            <Parameter Name="DeveloperID" Mode="In" Type="Int32" />
+            <Parameter Name="HousingTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateShift">
+            <Parameter Name="ShiftID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkerID" Mode="In" Type="Int32" />
+            <Parameter Name="ConstructionID" Mode="In" Type="Int32" />
+            <Parameter Name="ShiftDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateWorker">
+            <Parameter Name="WorkerID" Mode="In" Type="Int32" />
+            <Parameter Name="FullName" Mode="In" Type="String" />
+            <Parameter Name="PositionID" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentPerShift" Mode="In" Type="Decimal" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище HousingConstructionModelContainer" CdmEntityContainer="HousingConstructionEntities">
+          <EntitySetMapping Name="Construction">
+            <EntityTypeMapping TypeName="HousingConstructionModel.Construction">
+              <MappingFragment StoreEntitySet="Construction">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+                <ScalarProperty Name="HousingID" ColumnName="HousingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Developer">
+            <EntityTypeMapping TypeName="HousingConstructionModel.Developer">
+              <MappingFragment StoreEntitySet="Developer">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Housing">
+            <EntityTypeMapping TypeName="HousingConstructionModel.Housing">
+              <MappingFragment StoreEntitySet="Housing">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="RoomCount" ColumnName="RoomCount" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="HousingTypeID" ColumnName="HousingTypeID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HousingType">
+            <EntityTypeMapping TypeName="HousingConstructionModel.HousingType">
+              <MappingFragment StoreEntitySet="HousingType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Position">
+            <EntityTypeMapping TypeName="HousingConstructionModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PositionName" ColumnName="PositionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shift">
+            <EntityTypeMapping TypeName="HousingConstructionModel.Shift">
+              <MappingFragment StoreEntitySet="Shift">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WorkerID" ColumnName="WorkerID" />
+                <ScalarProperty Name="ConstructionID" ColumnName="ConstructionID" />
+                <ScalarProperty Name="ShiftDate" ColumnName="ShiftDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="HousingConstructionModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Worker">
+            <EntityTypeMapping TypeName="HousingConstructionModel.Worker">
+              <MappingFragment StoreEntitySet="Worker">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="PaymentPerShift" ColumnName="PaymentPerShift" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompletedHousingInfo">
+            <EntityTypeMapping TypeName="HousingConstructionModel.CompletedHousingInfo">
+              <MappingFragment StoreEntitySet="CompletedHousingInfo">
+                <ScalarProperty Name="HousingID" ColumnName="HousingID" />
+                <ScalarProperty Name="HousingType" ColumnName="HousingType" />
+                <ScalarProperty Name="HousingAddress" ColumnName="HousingAddress" />
+                <ScalarProperty Name="HousingStatus" ColumnName="HousingStatus" />
+                <ScalarProperty Name="ConstructionStartDate" ColumnName="ConstructionStartDate" />
+                <ScalarProperty Name="ConstructionEndDate" ColumnName="ConstructionEndDate" />
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+                <ScalarProperty Name="DeveloperName" ColumnName="DeveloperName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeveloperStatistics">
+            <EntityTypeMapping TypeName="HousingConstructionModel.DeveloperStatistics">
+              <MappingFragment StoreEntitySet="DeveloperStatistics">
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+                <ScalarProperty Name="DeveloperName" ColumnName="DeveloperName" />
+                <ScalarProperty Name="TotalBuildings" ColumnName="TotalBuildings" />
+                <ScalarProperty Name="TotalConstructionDurationDays" ColumnName="TotalConstructionDurationDays" />
+                <ScalarProperty Name="AverageConstructionDurationDays" ColumnName="AverageConstructionDurationDays" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InProgressHousingInfo">
+            <EntityTypeMapping TypeName="HousingConstructionModel.InProgressHousingInfo">
+              <MappingFragment StoreEntitySet="InProgressHousingInfo">
+                <ScalarProperty Name="HousingID" ColumnName="HousingID" />
+                <ScalarProperty Name="HousingType" ColumnName="HousingType" />
+                <ScalarProperty Name="HousingAddress" ColumnName="HousingAddress" />
+                <ScalarProperty Name="HousingStatus" ColumnName="HousingStatus" />
+                <ScalarProperty Name="ConstructionStartDate" ColumnName="ConstructionStartDate" />
+                <ScalarProperty Name="ConstructionEndDate" ColumnName="ConstructionEndDate" />
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+                <ScalarProperty Name="DeveloperName" ColumnName="DeveloperName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShiftSummary">
+            <EntityTypeMapping TypeName="HousingConstructionModel.ShiftSummary">
+              <MappingFragment StoreEntitySet="ShiftSummary">
+                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
+                <ScalarProperty Name="WorkerID" ColumnName="WorkerID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="HousingID" ColumnName="HousingID" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="ShiftDate" ColumnName="ShiftDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SoldHousingInfo">
+            <EntityTypeMapping TypeName="HousingConstructionModel.SoldHousingInfo">
+              <MappingFragment StoreEntitySet="SoldHousingInfo">
+                <ScalarProperty Name="HousingID" ColumnName="HousingID" />
+                <ScalarProperty Name="HousingType" ColumnName="HousingType" />
+                <ScalarProperty Name="HousingAddress" ColumnName="HousingAddress" />
+                <ScalarProperty Name="HousingStatus" ColumnName="HousingStatus" />
+                <ScalarProperty Name="ConstructionStartDate" ColumnName="ConstructionStartDate" />
+                <ScalarProperty Name="ConstructionEndDate" ColumnName="ConstructionEndDate" />
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+                <ScalarProperty Name="DeveloperName" ColumnName="DeveloperName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkerStatictics">
+            <EntityTypeMapping TypeName="HousingConstructionModel.WorkerStatictics">
+              <MappingFragment StoreEntitySet="WorkerStatictics">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WorkerFullName" ColumnName="WorkerFullName" />
+                <ScalarProperty Name="TotalShiftsWorked" ColumnName="TotalShiftsWorked" />
+                <ScalarProperty Name="TotalPayment" ColumnName="TotalPayment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionName="Хранилище HousingConstructionModel.FindMostExpensiveHousing" FunctionImportName="FindMostExpensiveHousing">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HousingConstructionModel.FindMostExpensiveHousing_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Area" ColumnName="Area" />
+                <ScalarProperty Name="RoomCount" ColumnName="RoomCount" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+                <ScalarProperty Name="HousingTypeID" ColumnName="HousingTypeID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddConstruction" FunctionName="Хранилище HousingConstructionModel.AddConstruction" />
+          <FunctionImportMapping FunctionImportName="AddDeveloper" FunctionName="Хранилище HousingConstructionModel.AddDeveloper" />
+          <FunctionImportMapping FunctionImportName="AddHousing" FunctionName="Хранилище HousingConstructionModel.AddHousing" />
+          <FunctionImportMapping FunctionImportName="AddShift" FunctionName="Хранилище HousingConstructionModel.AddShift" />
+          <FunctionImportMapping FunctionImportName="AddWorker" FunctionName="Хранилище HousingConstructionModel.AddWorker" />
+          <FunctionImportMapping FunctionImportName="DeleteConstruction" FunctionName="Хранилище HousingConstructionModel.DeleteConstruction" />
+          <FunctionImportMapping FunctionImportName="DeleteDeveloper" FunctionName="Хранилище HousingConstructionModel.DeleteDeveloper" />
+          <FunctionImportMapping FunctionImportName="DeleteHousing" FunctionName="Хранилище HousingConstructionModel.DeleteHousing" />
+          <FunctionImportMapping FunctionImportName="DeleteShift" FunctionName="Хранилище HousingConstructionModel.DeleteShift" />
+          <FunctionImportMapping FunctionImportName="DeleteWorker" FunctionName="Хранилище HousingConstructionModel.DeleteWorker" />
+          <FunctionImportMapping FunctionImportName="UpdateConstruction" FunctionName="Хранилище HousingConstructionModel.UpdateConstruction" />
+          <FunctionImportMapping FunctionImportName="UpdateDeveloper" FunctionName="Хранилище HousingConstructionModel.UpdateDeveloper" />
+          <FunctionImportMapping FunctionImportName="UpdateHousing" FunctionName="Хранилище HousingConstructionModel.UpdateHousing" />
+          <FunctionImportMapping FunctionImportName="UpdateShift" FunctionName="Хранилище HousingConstructionModel.UpdateShift" />
+          <FunctionImportMapping FunctionImportName="UpdateWorker" FunctionName="Хранилище HousingConstructionModel.UpdateWorker" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="c00a786b6c5c47ce9f9fd0ce4877a483" Name="Diagram1">
+        <EntityTypeShape EntityType="HousingConstructionModel.Construction" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.Developer" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.Housing" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.HousingType" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.Position" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.Shift" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.Status" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.Worker" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.CompletedHousingInfo" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.DeveloperStatistics" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.InProgressHousingInfo" Width="1.5" PointX="7.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.ShiftSummary" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.SoldHousingInfo" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HousingConstructionModel.WorkerStatictics" Width="1.5" PointX="9.75" PointY="8.75" IsExpanded="true" />
+        <AssociationConnector Association="HousingConstructionModel.FK_Construction_Housing" ManuallyRouted="false" />
+        <AssociationConnector Association="HousingConstructionModel.FK_Construction_Shift" ManuallyRouted="false" />
+        <AssociationConnector Association="HousingConstructionModel.FK_Developer_Construction" ManuallyRouted="false" />
+        <AssociationConnector Association="HousingConstructionModel.FK_HousingType_Housing" ManuallyRouted="false" />
+        <AssociationConnector Association="HousingConstructionModel.FK_Status_Housing" ManuallyRouted="false" />
+        <AssociationConnector Association="HousingConstructionModel.FK_Position_Worker" ManuallyRouted="false" />
+        <AssociationConnector Association="HousingConstructionModel.FK_Worker_Shift" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
